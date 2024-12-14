@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Sinais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .image-block {
+            width: 100%;
+            height: auto;
+            background-color: #ddd;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+        .fixed-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .fixed-button:hover {
+            background-color: #218838;
+        }
+        .percentage-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .percentage {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            width: calc(33.333% - 20px);
+            box-sizing: border-box;
+            margin: 10px;
+        }
+        .percentage img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .good-entry {
+            color: green;
+            font-weight: bold;
+        }
+        .bad-entry {
+            color: red;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        .spacer {
+            height: 80px;
+        }
+        .spacer-bottom {
+            height: 100px;
+        }
+        .notification {
+            color: #28a745;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gerador de Sinais</h1>
+    <div class="image-block">
+        <div class="spacer"></div>
+        <img src="imagens/banner.jpg" alt="Imagem Personalizável" style="width: 100%; height: 200px; object-fit: cover;">
+    </div>
+    <div class="notification" id="notification" style="display: none;"></div>
+</header>
+
+<div class="percentage-container" id="percentageContainer">
+    <!-- Porcentagens serão geradas aqui -->
+</div>
+
+<!-- Seção Faça Parte da Comunidade -->
+<div class="community-section">
+    <h2 class="community-title">Faça Parte da Comunidade</h2>
+    <img src="imagens/logo-whatsapp.png" alt="Logo do WhatsApp" class="community-logo">
+    <a href="https://adicione-o-seu-link-aqui.com" class="community-button" target="_blank">Entrar</a>
+</div>
+
+    <a href="https://adicione-o-seu-link-participar.com" class="community-button" target="_blank">
+        <button class="fixed-button">Participar</button>
+    </a>
+</div>
+
+<!-- Botão fixo para funcionalidade adicional -->
+<button class="fixed-button" onclick="window.open('https://adicione-o-seu-link-aqui.com', '_blank')">
+    Lançamento
+</button>
+
+<div class="spacer"></div>
+
+<div class="footer">
+    <p>@dhedicas 2024 Sinais Vip com IA. Todos os direitos reservados  ©.</p>
+    <div class="spacer"></div>
+</div>
+
+<div class="spacer"></div>
+
+<script>
+    const percentageContainer = document.getElementById('percentageContainer');
+    const notification = document.getElementById('notification');
+    let previousPercentages = JSON.parse(localStorage.getItem('percentages')) || [];
+
+    // Lista de nomes dos jogos
+    const gameNames = [
+        "Fortune Rabbit",
+        "Fortune Tiger",
+        "Fortune Ox",
+        "Fortune Mouse",
+        "Ganesha Gold",
+        "Double Fortune",
+        "Fortune Dragon",
+        "Dungle Delight",
+        "Wild Bandito",
+        "Genies 3 Wishes",
+        "Muay Tay Champion",
+        "The Great IceScape",
+        "Dragon Tiger Luck",
+        "Circus Delight",
+        "Phoenix Rises",
+        "Dragon Hatch",
+        "Rave Party Fever",
+        "Adicione o nome do Jogo 4 aqui",
+        "Ganesha Fortune",
+        "Piggy Gold",
+        "Super Market Spree ",
+        "Captain's Bounty",
+        "Midas Fortune",
+        "Hawaiian Tiki",
+        "Buffalo Win",
+        "Alchemy Gold",
+        "Tree of Fortune",
+        "Diner Delights",
+        "Win Win Won",
+        "Totem Wonders",
+        "Mermaid Riches",
+        "Wild Bounty Showdown",
+        "Lucky Piggy",
+        "Mahjong Ways 2",
+        "Mahjong Ways",
+        "Ways of the Qilin",
+        "Lucky Neko",
+        "Rise of Apollo",
+        "Queen Of Bounty",
+        "Cocktail Nights",
+        "Leprechaun Riches",
+        "Prosperity Fortune Tree",
+        "Destiny of Sun & Moon",
+        "Candy Bonanza",
+        "Heist Stakes",
+        "Emperors Favour",
+        "Butterfly Blossom",
+        "Prosperity Lion",
+        "Rooster Rumble",
+        "Dreams of Macau",
+        "Caishen Wins",
+        "Secrets of Cleopatra",
+        "Medusa Perseus",
+        "Medusa Athena",
+        "Santas Gift Rush",
+        "Candy Burst",
+        "Guardians of Ice and Fire",
+        "Fortune Gods",
+        "Legend of Perseus",
+        "Speed Winner",
+        "Treasures of Aztec",
+        "Jewels of Prosperity",
+        "Crypto Gold",
+        "Dragon Legend",
+        "Journey to the Wealth",
+        "Egypt's Book of Mystery",
+        "Raider Jane's Crypt of Fortune",
+        "Legend of Hou Yi",
+        "The Queen's Banquet",
+        "Mr. Hallow-Win",
+        "Hip Hop Panda",
+        "Garuda Gems",
+        "Plushie Frenzy",
+        "Wild Fireworks",
+        "3 Monkeys",
+        "Legendary Monkey King",
+        "Vampire's Charm",
+        "Flirting Scholar",
+        "Groundhog Harvest",
+        "Emoji Riches",
+        "Farm Invaders",
+        "Mask Carnival",
+        "Shaolin Soccer",
+        "Wild Coaster",
+        "Thai River Wonders",
+        "Battleground Royale",
+        "Galactic Gems",
+        "Hotpot",
+        "Majestic Treasures",
+        "Opera Dynasty",
+        "Spirited Wonders",
+        "Ninja vs Samurai",
+        "Win Win Fish Prawn Crab",
+        "Reel Love",
+        "Sushi Oishi",
+        "Bali Vacation",
+        "Oriental Prosperity",
+        "Gem Saviour Sword",
+        "Wizdom Wonders",
+        "Gem Saviour Conquest",
+        "Symbols of Egypt",
+        "Honey Trap of Diao Chan",
+        "Jack Frost's Winter",
+        "Hood vs Wolf",
+        "Bikini Paradise"
+    ];
+
+    // Lista de imagens dos jogos
+    const gameImages = Array.from({ length: 105 }, (_, i) => `imagens/jogo${i + 1}.jpg`);
+
+    // Função para gerar novas porcentagens
+    function generatePercentages() {
+        const percentages = [];
+        for (let i = 1; i <= 105; i++) {
+            const percentage = Math.floor(Math.random() * (100 - 25 + 1)) + 25;
+            percentages.push(percentage);
+        }
+        return percentages;
+    }
+
+    // Função para exibir as porcentagens na tela
+    function displayPercentages(percentages) {
+        percentageContainer.innerHTML = '';
+        percentages.forEach((percentage, index) => {
+            const percentageDiv = document.createElement('div');
+            percentageDiv.className = 'percentage';
+            percentageDiv.innerHTML = `
+                <a 
+                    href="https://adicione-o-link-do-jogo-${index + 1}.com" 
+                    target="_blank">
+                    <img src="${gameImages[index]}" alt="Capa do ${gameNames[index]}">
+                </a>
+                <h2>${gameNames[index]}</h2>
+                <p class="${percentage >= 85 ? 'good-entry' : 'bad-entry'}">${percentage}%</p>
+            `;
+            percentageContainer.appendChild(percentageDiv);
+            if (percentage >= 85) {
+                showNotification(`Boa entrada detectada para ${gameNames[index]}: ${percentage}%`);
+            }
+        });
+    }
+
+    // Função para exibir notificações
+    function showNotification(message) {
+        notification.innerText = message;
+        notification.style.display = 'block';
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 3000);
+    }
+
+    // Função para atualizar as porcentagens
+    function updatePercentages() {
+        const newPercentages = generatePercentages();
+        localStorage.setItem('percentages', JSON.stringify(newPercentages));
+        previousPercentages = newPercentages;
+        displayPercentages(newPercentages);
+    }
+
+    // Função para carregar as porcentagens existentes ou gerar novas
+    function loadPercentages() {
+        if (previousPercentages.length > 0) {
+            displayPercentages(previousPercentages);
+        } else {
+            updatePercentages();
+        }
+    }
+
+    // Chama a função inicial para carregar as porcentagens
+    loadPercentages();
+
+    // Atualiza as porcentagens automaticamente a cada 60 segundos
+    setInterval(updatePercentages, 60000);
+</script>
+</body>
+</html>
